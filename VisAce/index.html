@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa Mock Interview</title>
+    <style type="text/css">
+        body {
+            background: linear-gradient(145deg, #4093e7, #84b6e9);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #f1f1f1;
+        }
+    
+        /* Navigation bar styles */
+        .navbar {
+            width: 100%;
+            background-color: #003366;
+            padding: 14px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+    
+        .navbar a {
+            color: #ffffff;
+            font-size: 18px;
+            padding: 14px 25px;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            text-transform: uppercase;
+        }
+    
+        .navbar a:hover {
+            background-color: #ff8c00;
+            border-radius: 5px;
+        }
+    
+        .navbar a.active {
+            background-color: #ff5722;
+        }
+    
+        /* Body content styles */
+        .content {
+            margin-top: 80px;
+            padding: 20px;
+            width: 100%;
+            max-width: 720px;
+            text-align: center;
+        }
+    
+        h1 {
+            font-size: 48px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: bold;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+        }
+    
+        h2 {
+            font-size: 28px;
+            color: #f1f1f1;
+            margin-top: 30px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+    
+        #visaForm {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 650px;
+            transition: transform 0.3s ease-in-out;
+        }
+    
+        #visaForm:hover {
+            transform: scale(1.05);
+        }
+    
+        label {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+            display: block;
+            font-weight: bold;
+        }
+    
+        select, input[type="text"], button {
+            font-size: 16px;
+            padding: 14px;
+            width: 100%;
+            margin-bottom: 20px;
+            border: 2px solid #ff8c00;
+            border-radius: 8px;
+            background-color: #fafafa;
+            color: #333;
+            transition: border-color 0.3s ease;
+        }
+    
+        select:focus, input[type="text"]:focus, button:focus {
+            border-color: #ff5722;
+            outline: none;
+        }
+    
+        button, input[type="button"], input[type="submit"] {
+            font-size: 18px;
+            padding: 14px 25px;
+            border-radius: 8px;
+            border: 2px solid #ff8c00;
+            cursor: pointer;
+            background-color: #ff8c00;
+            color: white;
+            margin-top: 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        button:hover, input[type="button"]:hover, input[type="submit"]:hover {
+            background-color: #ff5722;
+            transform: scale(1.05);
+        }
+    
+        #questions {
+            margin: 20px 0;
+            font-size: 22px;
+            color: #ffffff; /* Change this to white */
+            text-align: center;
+            margin-top: 40px;
+        }
+    
+        #result {
+            height: auto;
+            border-radius: 10px;
+            margin-top: 40px;
+            font-size: 16px;
+            line-height: 25px;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 650px;
+            text-align: center;
+        }
+    
+        #result1 {
+            width: 100%;
+            font-size: 18px;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-family: 'Courier', monospace;
+            background-color: #fafafa;
+            transition: border-color 0.3s ease;
+        }
+    
+        #result1:focus {
+            border-color: #ff8c00;
+            outline: none;
+        }
+    
+        #feedback {
+            font-size: 18px;
+            color: green;
+            margin-top: 15px;
+            text-align: center;
+        }
+    
+        #nextQuestion {
+            display: block;
+            margin: 30px auto;
+            padding: 14px 25px;
+            border-radius: 8px;
+            background-color: #2196F3;
+            color: white;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        #nextQuestion:hover {
+            background-color: #1976D2;
+            transform: scale(1.05);
+        }
+    
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+    
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        .hidden {
+            display: none;
+        }
+    
+        /* Smooth transition for forms */
+        .form-container, #visaForm, #result {
+            transition: opacity 0.4s ease-in-out;
+        }
+    
+        .fadeIn {
+            opacity: 1;
+        }
+    
+        .fadeOut {
+            opacity: 0;
+        }
+    
+        .testimonial {
+            font-style: italic;
+            color: #f1f1f1;
+            margin-top: 40px;
+        }
+    
+        .testimonial p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+    
+        .testimonial img {
+            width: 50px;
+            border-radius: 50%;
+        }
+    
+        .footer {
+            font-size: 14px;
+            color: #aaa;
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #003366;
+            width: 100%;
+        }
+    
+        .footer a {
+            color: #ff5722;
+            text-decoration: none;
+        }
+    
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .animation-container {
+            position: absolute;
+            left: 10px; /* Adjust as needed to place the animation */
+            top: 100px; /* Adjust for vertical alignment */
+            z-index: 1;
+        }
+
+    </style>    
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="#" class="active">VisAce</a>
+        <a href="#profile">Profile</a>
+        <a href="#sign-language">Sign Language Support</a>
+        <a href="discussion-portal.html">Discussion Portal</a>
+        <a href="#sign-out">Sign Out</a>
+    </div>
+    <div class="animation-container">
+        <svg width="300" height="300" viewBox="0 0 200 200">
+            <!-- Visa stamp animation -->
+            <g id="stamp">
+                <circle cx="100" cy="100" r="70" fill="orange" opacity="0.3" />
+                <text x="50" y="110" font-size="30" fill="#333" font-family="Arial" font-weight="bold">
+                    VISA
+                </text>
+                <animateTransform attributeName="transform" attributeType="XML" type="scale" from="1 1" to="1.1 1.1" begin="0s" dur="0.5s" repeatCount="indefinite" />
+            </g>
+    
+            <!-- Airplane animation -->
+            <path id="airplane-path" d="M 0,180 C 80,50 120,50 200,180" fill="none" stroke="none"/>
+            <g id="airplane" transform="translate(0,0)">
+                <path d="M10 10 L30 20 L10 30 Z" fill="black" stroke="#333" />
+                <animateMotion dur="7s" repeatCount="indefinite">
+                    <mpath href="#airplane-path" />
+                </animateMotion>
+            </g>
+        </svg>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content">
+        <div class="form-container fadeIn">
+            <h1>Visa Mock Interview</h1>
+
+            <form id="visaForm">
+                <label for="visa_type">Visa Type:</label>
+                <select id="visa_type" name="visa_type">
+                    <option value="student">Student Visa</option>
+                    <option value="work">Work Visa</option>
+                </select><br>
+
+                <label for="country">Country:</label>
+                <select id="country" name="country">
+                    <option value="USA">USA</option>
+                    <option value="UK">UK</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Germany">Germany</option>
+                    <option value="France">France</option>
+                    <option value="New Zealand">New Zealand</option>
+                </select><br><br>
+
+                <button type="submit">Submit</button>
+            </form>
+
+            <h2>Interview Questions:</h2>
+            <div id="questions"></div>
+
+            <button id="nextQuestion" class="hidden">Next Question</button>
+
+            <div id="result" class="center">
+                <form id="resultForm" action="result" method="POST">
+                    <input type="text" id="result1" name="Name" required />
+                    <br>
+                    <button type="button" onclick="startConverting();">Start Voice Input</button>
+                    <button type="button" onclick="stopConverting();">Stop Voice Input</button>
+                    <br>
+                    <input type="submit" value="Submit" />
+                    <input type="button" value="Clear" onClick="clearText()" />
+                </form>
+                <div id="feedback"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let responses = []; 
+        var r = document.getElementById('result1');
+        var feedback = document.getElementById('feedback');
+        var speechRecognizer = new webkitSpeechRecognition();
+    
+        document.getElementById("visaForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const visaType = document.getElementById("visa_type").value;
+            const country = document.getElementById("country").value;
+    
+            const response = await fetch("http://127.0.0.1:8081/questions/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    visa_type: visaType,
+                    country: country,
+                    response: []
+                })
+            });
+    
+            const data = await response.json();
+            questions = data.questions;
+            console.log(questions);
+            currentQuestionIndex = 0;
+            responses = [];
+
+            displayQuestion();
+            document.getElementById("nextQuestion").classList.remove('hidden');
+        });
+
+        function startConverting() {
+            if ('webkitSpeechRecognition' in window) {
+                speechRecognizer.continuous = true;
+                speechRecognizer.interimResults = true;
+                speechRecognizer.start();
+                feedback.textContent = "Voice input started...";
+
+                var finalTranscripts = '';
+
+                speechRecognizer.onresult = function(event) {
+                    var interimTranscripts = '';
+                    for (var i = event.resultIndex; i < event.results.length; i++) {
+                        var transcript = event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            finalTranscripts += transcript;
+                        } else {
+                            interimTranscripts += transcript;
+                        }
+                    }
+                
+                    r.value = finalTranscripts + interimTranscripts;
+                    console.log(finalTranscripts);
+                };
+                
+                speechRecognizer.onerror = function(event) {
+                    feedback.textContent = "Error occurred in speech recognition: " + event.error;
+                };
+            } else {
+                feedback.textContent = 'Speech Recognition not supported in this browser.';
+            }
+        }
+        
+        function stopConverting() {
+            speechRecognizer.stop();
+            feedback.textContent = "Voice input stopped.";
+        }
+
+        function clearText() {
+            r.value = "";
+            stopConverting();
+        }
+    
+        function displayQuestion() {
+            const questionsDiv = document.getElementById("questions");
+            questionsDiv.innerHTML = "";
+    
+            if (currentQuestionIndex < questions.length) {
+                const questionElement = document.createElement("p");
+                questionElement.textContent = questions[currentQuestionIndex];
+                questionsDiv.appendChild(questionElement);
+            } else {
+                questionsDiv.innerHTML = "<p>No more questions!</p>";
+                document.getElementById("nextQuestion").classList.add('hidden');
+                callGeminiAPI();
+            }
+        }
+    
+        document.getElementById("nextQuestion").addEventListener("click", function() {
+            responses[currentQuestionIndex] = r.value;
+            currentQuestionIndex++;
+            displayQuestion();
+            if (currentQuestionIndex < questions.length) {
+                r.value = "";
+                feedback.textContent = "";
+            } else {
+                feedback.textContent = "End of questions.";
+            }
+        });
+
+        document.getElementById("resultForm").addEventListener("submit", async function (event) {
+            event.preventDefault(); callOpenAIAPI(); });
+            async function callOpenAIAPI(){
+        
+            const visaType = document.getElementById("visa_type").value;
+            const country = document.getElementById("country").value;
+            const responses = ["Example response 1", "Example response 2"]; // Replace with actual responses collected
+
+            try {
+                const feedback = await fetch("http://127.0.0.1:8081/feedback/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        visa_type: visaType,
+                        country: country,
+                        response: responses
+                    })
+                });
+
+                if (!feedback.ok) {
+                    throw new Error("Failed to get feedback from the server.");
+                }
+
+                const data = await feedback.json();
+                console.log(data);
+                displayFeedback(data); // Function to display feedback from OpenAI
+            } catch (error) {
+                console.error("Error fetching feedback:", error);
+                document.getElementById("feedback").textContent = "Error fetching feedback.";
+            }
+        };
+
+        function displayFeedback(data) {
+            console.log("Data received from OpenAI:", data);
+
+            if (data && data.feedback) {
+                document.getElementById("feedback").textContent = data.feedback;
+            } else {
+                document.getElementById("feedback").textContent = "No feedback received.";
+            }
+        }
+
+        // async function callGeminiAPI() {
+        //     const visaType = document.getElementById("visa_type").value;
+        //     const country = document.getElementById("country").value;
+
+        //     const feedback = await fetch("http://127.0.0.1:8081/feedback/", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json"
+        //         },
+        //         body: JSON.stringify({
+        //             visa_type: visaType,
+        //             country: country,
+        //             response: responses
+        //         })
+        //     });
+
+        //     const data = await feedback.json();
+        //     console.log("feedback data: ", data);
+        //     displayFeedback(data); // Function to display feedback from LLM
+        // }
+
+        
+
+        // function displayFeedback(data) {
+        //     console.log("Data received from LLM:", data);
+        //     if (data || data.contents) {
+        //         feedback.textContent = data.feedback; // Assuming the response is structured this way
+        //     } else {
+        //         feedback.textContent = "No feedback received from LLM.";
+        //     }
+        // }
+    </script>
+</body>
+</html>
+
+
+  
+
+<!-- // <!DOCTYPE html>
+// <html lang="en">
+// <head>
+//     <meta charset="UTF-8">
+//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//     <title>Visa Mock Interview</title>
+// </head>
+// <body>
+//     <h1>Visa Mock Interview</h1>
+
+//     <form id="visaForm">
+//         <label for="visa_type">Visa Type:</label>
+//         <select id="visa_type" name="visa_type">
+//             <option value="student">Student Visa</option>
+//             <option value="work">Work Visa</option>
+//         </select><br><br>
+
+//         <label for="country">Country:</label>
+//         <select id="country" name="country">
+//             <option value="USA">USA</option>
+//             <option value="UK">UK</option>
+//         </select><br><br>
+
+//         <button type="submit">Submit</button>
+//     </form>
+
+//     <h2>Interview Questions:</h2>
+//     <div id="questions"></div>
+
+//     <script> -->
+<!-- //         document.getElementById("visaForm").addEventListener("submit", async function(event) {
+//             event.preventDefault();
+            
+//             const visaType = document.getElementById("visa_type").value;
+//             const country = document.getElementById("country").value;
+
+//             const response = await fetch("http://127.0.0.1:8000/questions/", {
+//                 method: "POST",
+//                 headers: {
+//                     "Content-Type": "application/json"
+//                 },
+//                 body: JSON.stringify({
+//                     visa_type: visaType,
+//                     country: country
+//                 })
+//             });
+
+//             const data = await response.json();
+//             const questionsDiv = document.getElementById("questions");
+
+//             // Display the questions on the screen
+//             questionsDiv.innerHTML = "";
+//             data.questions.forEach(question => {
+//                 const questionElement = document.createElement("p");
+//                 questionElement.textContent = question;
+//                 questionsDiv.appendChild(questionElement);
+//             });
+//         });
+//     </script>
+// </body>
+// </html> -->

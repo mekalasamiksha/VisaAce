@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion Portal</title>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #84b6e9;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        /* Container for the whole page to center content */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Discussion Portal Styles */
+        .discussion-portal {
+            background-color: #ffffff;
+            padding: 40px 60px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+            width: 100%;
+            max-width: 700px;
+            text-align: left;
+        }
+
+        .discussion-portal h2 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .discussion-portal label {
+            font-size: 16px;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .discussion-portal input, .discussion-portal textarea {
+            font-size: 16px;
+            padding: 12px;
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1px solid #ccd1d9;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: border-color 0.3s ease;
+        }
+
+        .discussion-portal input:focus, .discussion-portal textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .discussion-portal button {
+            font-size: 16px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 2px solid #3498db;
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .discussion-portal button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        /* Style for the comments section */
+        #commentSection {
+            margin-top: 30px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        #commentList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #commentList li {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #e1e8f0;
+        }
+
+        #commentList li span {
+            display: block;
+            font-size: 14px;
+            color: #95a5a6;
+            margin-top: 5px;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .discussion-portal {
+                padding: 30px 20px;
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Discussion Portal Section -->
+        <div class="discussion-portal">
+            <h2>Discussion Portal</h2>
+
+            <!-- Form for submitting a comment -->
+            <form id="discussionForm">
+                <label for="userName">Your Name:</label>
+                <input type="text" id="userName" name="userName" placeholder="Enter your name" required><br><br>
+
+                <label for="userComment">Your Comment:</label>
+                <textarea id="userComment" name="userComment" rows="4" placeholder="Enter your comment" required></textarea><br><br>
+
+                <button type="submit">Submit Comment</button>
+            </form>
+
+            <!-- Display Submitted Comments -->
+            <div id="commentSection">
+                <h3>Comments:</h3>
+                <ul id="commentList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle form submission and display comments
+        document.getElementById("discussionForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent page reload on form submission
+
+            // Get the user's name and comment
+            const userName = document.getElementById("userName").value;
+            const userComment = document.getElementById("userComment").value;
+
+            // Create a new comment element
+            const commentElement = document.createElement("li");
+
+            // Add the comment content to the element
+            commentElement.innerHTML = `
+                <strong>${userName}</strong>: ${userComment}
+                <span>Just now</span>
+            `;
+
+            // Add the comment to the list of comments
+            document.getElementById("commentList").appendChild(commentElement);
+
+            // Clear the input fields after submission
+            document.getElementById("userName").value = "";
+            document.getElementById("userComment").value = "";
+        });
+    </script>
+
+</body>
+</html>
